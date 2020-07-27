@@ -1,5 +1,5 @@
 # ros1_mp4_to_rosbag
-
+This is the script convert mp4 to rosbag.
 # usage
 1. Clone this repositry
 2. python mp4\_to\_rosbag.py [target mp4] [output bag name] [output image width] [output image height]
