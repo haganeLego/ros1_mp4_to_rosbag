@@ -1,0 +1,6 @@
+# movie file
+*.mp4
+*.MP4
+
+# ros file
+*.bag

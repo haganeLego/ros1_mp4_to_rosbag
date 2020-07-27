@@ -10,7 +10,7 @@ import cv2
 TOPIC = 'camera/image_raw'
 SIZE = ()
 
-def CreateVideoBag(videopath, bagname):
+def CreateVideoBag(videopath, bagname, width, height):
     '''Creates a bag file with a video file'''
     bag = rosbag.Bag(bagname, 'w')
     cap = cv2.VideoCapture(videopath)
@@ -27,6 +27,10 @@ def CreateVideoBag(videopath, bagname):
             break
         stamp = rospy.rostime.Time.from_sec(float(frame_id) / prop_fps)
         frame_id += 1
+        
+        '''image resize'''
+        frame = cv2.resize(frame, (int( width ), int( height )))
+        
         image = cb.cv2_to_imgmsg(frame, encoding='bgr8')
         image.header.stamp = stamp
         image.header.frame_id = "camera"
@@ -35,7 +39,7 @@ def CreateVideoBag(videopath, bagname):
     bag.close()
 
 if __name__ == "__main__":
-    if len( sys.argv ) == 3:
+    if len( sys.argv ) == 5:
         CreateVideoBag(*sys.argv[1:])
     else:
-        print( "Usage: video2bag videofilename bagfilename")
+        print( "Usage: video2bag videofilename bagfilename width height")
